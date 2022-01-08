@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "projects": {
+    "sensors": "/apps/sensors"
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/workspace"
+  }
+}

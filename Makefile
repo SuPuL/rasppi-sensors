@@ -20,7 +20,7 @@ build:
 	@echo "${LIGHTPURPLE}install precommit hook${RESET}";
 	pre-commit install --hook-type commit-msg
 	@echo "${LIGHTPURPLE}install package${RESET}";
-	yarn install
+	npm install
 	@echo "${BLUE}DONE${RESET}";
 .PHONY: build
 
