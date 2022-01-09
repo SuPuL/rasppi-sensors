@@ -1,6 +1,6 @@
 <script lang="ts">
   import InlineSVG from 'svelte-inline-svg';
-  import sensorMap from '/sensorMap.svg';
+  import sensorMap from './sensorMap.svg';
 
   const sensors: Sensor[] = [];
 

@@ -3,12 +3,6 @@
   import SensorMap from '$lib/sensor/SensorMap.svelte';
 
   let errorMessage: string;
-
-  export async function load() {
-    loadSensors().catch((error) => {
-      errorMessage = error.message;
-    });
-  }
 </script>
 
 <div>

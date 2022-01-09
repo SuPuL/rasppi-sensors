@@ -6,11 +6,22 @@
   "scripts": {
     "build": "nx build",
     "start": "nx serve",
-    "test": "nx test"
+    "start:dev": "nx run sensors:serve",
+    "test": "nx test",
+    "cm": "cz"
   },
   "config": {
+    "cz-emoji": {
+      "scopes": [
+        "sorcors-app",
+        "sorcors-reader"
+      ],
+      "skipQuestions": [
+        "issues"
+      ]
+    },
     "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
+      "path": "./node_modules/@supul/cz-conventional-emoji"
     }
   },
   "dependencies": {
@@ -19,28 +30,27 @@
   },
   "devDependencies": {
     "@angular-devkit/schematics": "^13.1.2",
-    "@nrwl/cli": "12.10.1",
-    "@nrwl/eslint-plugin-nx": "12.10.1",
-    "@nrwl/linter": "12.10.1",
-    "@nrwl/tao": "12.10.1",
-    "@nrwl/workspace": "12.10.1",
+    "@nrwl/cli": "13.4.3",
+    "@nrwl/eslint-plugin-nx": "13.4.3",
+    "@nrwl/linter": "13.4.3",
+    "@nrwl/tao": "13.4.3",
+    "@nrwl/workspace": "13.4.3",
     "@nxext/sveltekit": "^12.0.0-next.1",
+    "@supul/cz-conventional-emoji": "^0.1.0",
     "@sveltejs/adapter-auto": "next",
     "@sveltejs/adapter-node": "^1.0.0-next.56",
     "@sveltejs/kit": "next",
-    "@types/node": "14.14.33",
-    "@typescript-eslint/eslint-plugin": "~4.31.1",
-    "@typescript-eslint/parser": "~4.31.1",
-    "cz-conventional-changelog": "^3.3.0",
-    "eslint": "7.22.0",
-    "eslint-config-prettier": "8.1.0",
-    "eslint-plugin-svelte3": "^3.1.2",
-    "git-cz": "^4.8.0",
-    "nx-oclif": "^0.0.1",
-    "prettier": "^2.3.1",
-    "prettier-plugin-svelte": "^2.4.0",
-    "svelte-preprocess": "^4.0.0",
-    "typescript": "~4.3.5",
-    "vite": "^2.1.0"
+    "@types/node": "17.0.8",
+    "@typescript-eslint/eslint-plugin": "~5.3.0",
+    "@typescript-eslint/parser": "~5.3.0",
+    "eslint": "8.6.0",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-svelte3": "^3.3.0",
+    "prettier": "^2.5.1",
+    "prettier-plugin-svelte": "^2.5.1",
+    "svelte-inline-svg": "^1.0.8",
+    "svelte-preprocess": "^4.10.1",
+    "typescript": "~4.5.4",
+    "vite": "^2.7.10"
   }
 }

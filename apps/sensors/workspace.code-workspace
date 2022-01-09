@@ -1,13 +1,16 @@
 {
-	"folders": [
-		{
-			"name": "rasppi-sensors",
-			"path": "../.."
-		},
-		{
-			"name": "rasbpi-sensor-ui-old",
-			"path": "../../../rasbpi-sensor-ui-old"
-		}
-	],
-	"settings": {}
+  "folders": [
+    {
+      "name": "rasppi-sensors",
+      "path": "../.."
+    },
+    {
+      "name": "rasbpi-sensor-ui-old",
+      "path": "../../../rasbpi-sensor-ui-old"
+    },
+    {
+      "path": "../../../cz-conventional-emoji"
+    }
+  ],
+  "settings": {}
 }

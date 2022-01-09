@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "type": "module",
   "devDependencies": {
-    "svelte": "../../node_modules/svelte"
+    "svelte": "../../node_modules/svelte",
+    "svelte-inline-svg": "../../node_modules/svelte-inline-svg"
   }
 }
