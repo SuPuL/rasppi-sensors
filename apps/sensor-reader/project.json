@@ -1,0 +1,52 @@
+{
+  "root": "apps/sensor-reader",
+  "sourceRoot": "apps/sensor-reader/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "shx rm -rf dist && tsc -b"
+          }
+        ],
+        "cwd": "apps/sensor-reader"
+      }
+    },
+    "dev": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "./bin/dev"
+          }
+        ],
+        "cwd": "apps/sensor-reader"
+      }
+    },
+    "run": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "./bin/run {args.cmd}"
+          }
+        ],
+        "cwd": "apps/sensor-reader"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "apps/sensor-reader/**/*.ts"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

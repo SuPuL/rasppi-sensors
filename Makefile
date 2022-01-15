@@ -6,7 +6,7 @@ include make/commands.mk
 
 .DEFAULT_GOAL := build
 
-EXECUTABLES := ls node npm yarn git pre-commit cz
+EXECUTABLES := ls node npm yarn git pre-commit cz oclif
 
 $(call check_executables,${EXECUTABLES})
 

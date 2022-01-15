@@ -1,0 +1,29 @@
+{
+  "name": "@supul/rasppi-sensor-reader",
+  "description": "Read sensor data and store it in a sqllite database on a regular basis.",
+  "version": "0.0.1",
+  "dirname": "sensor-reader",
+  "bin": {
+    "rasppi-sensor-reader": "./bin/run"
+  },
+  "files": [
+    "/bin",
+    "/dist",
+    "/npm-shrinkwrap.json",
+    "/oclif.manifest.json"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "oclif": {
+    "bin": "rasppi-sensor-reader",
+    "commands": "dist/commands",
+    "plugins": [
+      "@oclif/plugin-help"
+    ]
+  },
+  "scripts": {
+    "postpack": "shx rm -f oclif.manifest.json",
+    "prepack": "npm build && oclif manifest && oclif readme",
+    "version": "oclif readme && git add README.md"
+  }
+}
