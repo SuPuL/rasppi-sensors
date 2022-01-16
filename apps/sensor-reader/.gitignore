@@ -1,0 +1,5 @@
+tmp
+dist
+package-lock.json
+.oclif.manifest.json
+lib

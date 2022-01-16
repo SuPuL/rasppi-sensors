@@ -17,33 +17,67 @@ oclif example Hello World CLI
 <!-- usage -->
 ```sh-session
 $ npm install -g @supul/rasppi-sensor-reader
-$ @supul/rasppi-sensor-reader COMMAND
+$ rasppi-sensor-reader COMMAND
 running command...
-$ @supul/rasppi-sensor-reader (--version)
-@supul/rasppi-sensor-reader/0.0.0 darwin-arm64 node-v17.3.0
-$ @supul/rasppi-sensor-reader --help [COMMAND]
+$ rasppi-sensor-reader (--version)
+@supul/rasppi-sensor-reader/0.0.1 darwin-arm64 node-v16.11.1
+$ rasppi-sensor-reader --help [COMMAND]
 USAGE
-  $ @supul/rasppi-sensor-reader COMMAND
+  $ rasppi-sensor-reader COMMAND
 ...
 ```
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`@supul/rasppi-sensor-reader help [COMMAND]`](#supulrasppi-sensor-reader-help-command)
-* [`@supul/rasppi-sensor-reader plugins`](#supulrasppi-sensor-reader-plugins)
-* [`@supul/rasppi-sensor-reader plugins:inspect PLUGIN...`](#supulrasppi-sensor-reader-pluginsinspect-plugin)
-* [`@supul/rasppi-sensor-reader plugins:install PLUGIN...`](#supulrasppi-sensor-reader-pluginsinstall-plugin)
-* [`@supul/rasppi-sensor-reader plugins:link PLUGIN`](#supulrasppi-sensor-reader-pluginslink-plugin)
-* [`@supul/rasppi-sensor-reader plugins:uninstall PLUGIN...`](#supulrasppi-sensor-reader-pluginsuninstall-plugin)
-* [`@supul/rasppi-sensor-reader plugins update`](#supulrasppi-sensor-reader-plugins-update)
+* [`rasppi-sensor-reader hello PERSON`](#rasppi-sensor-reader-hello-person)
+* [`rasppi-sensor-reader hello:world`](#rasppi-sensor-reader-helloworld)
+* [`rasppi-sensor-reader help [COMMAND]`](#rasppi-sensor-reader-help-command)
 
-## `@supul/rasppi-sensor-reader help [COMMAND]`
+## `rasppi-sensor-reader hello PERSON`
 
-Display help for @supul/rasppi-sensor-reader.
+Say hello
 
 ```
 USAGE
-  $ @supul/rasppi-sensor-reader help [COMMAND] [-n]
+  $ rasppi-sensor-reader hello [PERSON] -f <value>
+
+ARGUMENTS
+  PERSON  Person to say hello to
+
+FLAGS
+  -f, --from=<value>  (required) Whom is saying hello
+
+DESCRIPTION
+  Say hello
+
+EXAMPLES
+  $ oex hello friend --from oclif
+  hello friend from oclif! (./src/commands/hello/index.ts)
+```
+
+## `rasppi-sensor-reader hello:world`
+
+Say hello world
+
+```
+USAGE
+  $ rasppi-sensor-reader hello:world
+
+DESCRIPTION
+  Say hello world
+
+EXAMPLES
+  $ oex hello world
+  hello world! (./src/commands/hello/world.ts)
+```
+
+## `rasppi-sensor-reader help [COMMAND]`
+
+Display help for rasppi-sensor-reader.
+
+```
+USAGE
+  $ rasppi-sensor-reader help [COMMAND] [-n]
 
 ARGUMENTS
   COMMAND  Command to show help for.
@@ -52,154 +86,8 @@ FLAGS
   -n, --nested-commands  Include all nested commands in the output.
 
 DESCRIPTION
-  Display help for @supul/rasppi-sensor-reader.
+  Display help for rasppi-sensor-reader.
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.1.10/src/commands/help.ts)_
-
-## `@supul/rasppi-sensor-reader plugins`
-
-List installed plugins.
-
-```
-USAGE
-  $ @supul/rasppi-sensor-reader plugins [--core]
-
-FLAGS
-  --core  Show core plugins.
-
-DESCRIPTION
-  List installed plugins.
-
-EXAMPLES
-  $ @supul/rasppi-sensor-reader plugins
-```
-
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.0.11/src/commands/plugins/index.ts)_
-
-## `@supul/rasppi-sensor-reader plugins:inspect PLUGIN...`
-
-Displays installation properties of a plugin.
-
-```
-USAGE
-  $ @supul/rasppi-sensor-reader plugins:inspect PLUGIN...
-
-ARGUMENTS
-  PLUGIN  [default: .] Plugin to inspect.
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Displays installation properties of a plugin.
-
-EXAMPLES
-  $ @supul/rasppi-sensor-reader plugins:inspect myplugin
-```
-
-## `@supul/rasppi-sensor-reader plugins:install PLUGIN...`
-
-Installs a plugin into the CLI.
-
-```
-USAGE
-  $ @supul/rasppi-sensor-reader plugins:install PLUGIN...
-
-ARGUMENTS
-  PLUGIN  Plugin to install.
-
-FLAGS
-  -f, --force    Run yarn install with force flag.
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Installs a plugin into the CLI.
-
-  Can be installed from npm or a git url.
-
-  Installation of a user-installed plugin will override a core plugin.
-
-  e.g. If you have a core plugin that has a 'hello' command, installing a user-installed plugin with a 'hello' command
-  will override the core plugin implementation. This is useful if a user needs to update core plugin functionality in
-  the CLI without the need to patch and update the whole CLI.
-
-ALIASES
-  $ @supul/rasppi-sensor-reader plugins add
-
-EXAMPLES
-  $ @supul/rasppi-sensor-reader plugins:install myplugin 
-
-  $ @supul/rasppi-sensor-reader plugins:install https://github.com/someuser/someplugin
-
-  $ @supul/rasppi-sensor-reader plugins:install someuser/someplugin
-```
-
-## `@supul/rasppi-sensor-reader plugins:link PLUGIN`
-
-Links a plugin into the CLI for development.
-
-```
-USAGE
-  $ @supul/rasppi-sensor-reader plugins:link PLUGIN
-
-ARGUMENTS
-  PATH  [default: .] path to plugin
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Links a plugin into the CLI for development.
-
-  Installation of a linked plugin will override a user-installed or core plugin.
-
-  e.g. If you have a user-installed or core plugin that has a 'hello' command, installing a linked plugin with a 'hello'
-  command will override the user-installed or core plugin implementation. This is useful for development work.
-
-EXAMPLES
-  $ @supul/rasppi-sensor-reader plugins:link myplugin
-```
-
-## `@supul/rasppi-sensor-reader plugins:uninstall PLUGIN...`
-
-Removes a plugin from the CLI.
-
-```
-USAGE
-  $ @supul/rasppi-sensor-reader plugins:uninstall PLUGIN...
-
-ARGUMENTS
-  PLUGIN  plugin to uninstall
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Removes a plugin from the CLI.
-
-ALIASES
-  $ @supul/rasppi-sensor-reader plugins unlink
-  $ @supul/rasppi-sensor-reader plugins remove
-```
-
-## `@supul/rasppi-sensor-reader plugins update`
-
-Update installed plugins.
-
-```
-USAGE
-  $ @supul/rasppi-sensor-reader plugins update [-h] [-v]
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Update installed plugins.
-```
 <!-- commandsstop -->

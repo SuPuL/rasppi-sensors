@@ -9,8 +9,8 @@
     "start:dev": "nx run sensors:serve",
     "test": "nx test",
     "cm": "cz",
-    "reader": "nx run sensor-reader:run --cmd=plugins",
-    "reader:dev": "nx run sensor-reader:dev --cmd=plugins"
+    "reader": "./apps/sensor-reader/bin/run",
+    "reader:dev": "./apps/sensor-reader/bin/dev"
   },
   "config": {
     "commitizen": {
