@@ -1,12 +1,9 @@
 import { Command, Flags } from '@oclif/core';
-import pWaitFor from 'p-wait-for';
-import { PromisedDatabase } from 'promised-sqlite3';
+import { PrismaClient } from '@prisma/client';
 // @ts-ignore: no types avaiable
 import sensor from 'ds18b20-raspi';
 import random from 'lodash/random';
-import { constants } from 'fs';
-import { mkdir, writeFile, access } from 'fs/promises';
-import { resolve } from 'path';
+import pWaitFor from 'p-wait-for';
 
 interface SensorValue {
     id: string;
@@ -18,11 +15,7 @@ interface Context {
     interval: number;
 }
 
-const db = new PromisedDatabase();
-
-process.once('SIGINT', () => {
-    db.close();
-});
+const db = new PrismaClient();
 
 export default class Read extends Command {
     static description = 'Read all sensor values and store them in a local database on a regular basis.';
@@ -39,11 +32,6 @@ export default class Read extends Command {
         mock: Flags.boolean({
             char: 'm',
             description: 'Mock the sesnor data instead of read them.'
-        }),
-        dbPath: Flags.string({
-            char: 'f',
-            description: 'Path to folder of the database.',
-            default: './db/'
         })
     };
 
@@ -53,38 +41,26 @@ export default class Read extends Command {
         const { flags } = await this.parse(Read);
 
         try {
-            await this.startDb(flags.dbPath);
             await this.readSensorIds(flags);
             this.startReadLoop(flags);
         } catch (err) {
-            await db.close();
             return console.error(err.message);
         }
     }
-
-    startDb = async (dir: string) => {
-        await mkdir(dir, { recursive: true });
-        const sensorDbFile = resolve(dir, 'sensorDb.db');
-        await access(sensorDbFile, constants.R_OK | constants.W_OK).catch(() => writeFile(sensorDbFile, ''));
-
-        this.log('Connected to the database.');
-        await db.open(sensorDbFile);
-
-        this.log('Ensure tables exists.');
-        await db.run(
-            'CREATE TABLE IF NOT EXISTS sensor_data (id INTEGER PRIMARY KEY AUTOINCREMENT, dt datetime default current_timestamp, data TEXT NOT NULL)'
-        );
-        await db.run(
-            'CREATE TABLE IF NOT EXISTS sensor_info (id TEXT PRIMARY KEY, dt datetime default current_timestamp, label TEXT, x INTEGER, y INTEGER)'
-        );
-    };
 
     readSensorIds = async ({ mock }: Context) => {
         this.log(`Start read sensor info.`);
 
         return Promise.all(
             readSensorInfo(mock).map((id) =>
-                db.run('INSERT OR IGNORE INTO sensor_info (id, label, x, y) VALUES (?, ?, 0, 0)', id, id)
+                db.sensorInfo.create({
+                    data: {
+                        id,
+                        label: id,
+                        x: 0,
+                        y: 0
+                    }
+                })
             )
         );
     };
@@ -93,11 +69,15 @@ export default class Read extends Command {
         this.log(`Start reading sensor data.`);
         await pWaitFor(
             async () => {
-                const temps = JSON.stringify(readSensors(mock));
+                const data = JSON.stringify(readSensors(mock));
                 this.log(`${new Date()}: Temps are`);
-                this.log(temps);
+                this.log(data);
 
-                await db.run('INSERT INTO sensor_data (data) VALUES (?)', JSON.stringify(temps));
+                await db.sensorData.create({
+                    data: {
+                        data
+                    }
+                });
 
                 return false;
             },

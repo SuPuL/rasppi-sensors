@@ -1,13 +1,16 @@
 <script lang="ts" context="module">
-  import { loadSensors, sensors } from '$lib/sensor';
-  import SensorMap from '$lib/sensor/SensorMap.svelte';
+    import { loadSensors, sensors } from '$lib/sensor';
+    import SensorMap from '$lib/sensor/SensorMap.svelte';
 
-  let errorMessage: string;
+    let errorMessage: string;
 </script>
 
-<div>
-  SensorList: {$sensors}<br />
-  Error: {errorMessage}
-</div>
+<svelte:head>
+    <title>Overview</title>
+</svelte:head>
 
-<SensorMap />
+<h1>Overview</h1>
+
+<div>
+    <SensorMap />
+</div>

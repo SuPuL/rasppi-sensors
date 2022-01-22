@@ -124,4 +124,4 @@ node_modules
 oclif.manifest.json
 .svelte-kit
 
-db/
+db

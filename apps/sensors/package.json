@@ -4,6 +4,7 @@
   "type": "module",
   "devDependencies": {
     "svelte": "../../node_modules/svelte",
-    "svelte-inline-svg": "../../node_modules/svelte-inline-svg"
+    "svelte-inline-svg": "../../node_modules/svelte-inline-svg",
+    "@prisma/client": "../../node_modules/@prisma/client"
   }
 }
