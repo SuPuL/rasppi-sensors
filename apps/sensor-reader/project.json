@@ -31,20 +31,6 @@
         "cwd": "apps/sensor-reader"
       }
     },
-    "dev": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "command": "./bin/dev hello:world",
-        "cwd": "apps/sensor-reader"
-      }
-    },
-    "exec": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "command": "./bin/run hello:world",
-        "cwd": "apps/sensor-reader"
-      }
-    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": [

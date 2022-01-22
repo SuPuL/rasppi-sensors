@@ -3,11 +3,11 @@
   "description": "Read sensor data and store it in a sqllite database on a regular basis.",
   "version": "0.0.1",
   "bin": {
-    "rasppi-sensor-reader": "./bin/run"
+    "rasppi-sensor-reader": "./bin/run.js"
   },
   "files": [
     ".oclif.manifest.json",
-    "/bin/run",
+    "/bin/run.js",
     "/lib",
     "package-lock.json"
   ],
