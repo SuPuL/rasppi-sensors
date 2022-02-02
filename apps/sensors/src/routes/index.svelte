@@ -1,16 +1,16 @@
 <script lang="ts" context="module">
-    import { loadSensors, sensors } from '$lib/sensor';
     import SensorMap from '$lib/sensor/SensorMap.svelte';
-
-    let errorMessage: string;
 </script>
 
 <svelte:head>
     <title>Overview</title>
 </svelte:head>
 
-<h1>Overview</h1>
-
-<div>
-    <SensorMap />
+<div class="card text-center shadow-2xl card-bordered card-compact lg:card-normal">
+    <figure>
+        <SensorMap />
+    </figure>
+    <div class="card-body">
+        <h2 class="card-title">Overview</h2>
+    </div>
 </div>

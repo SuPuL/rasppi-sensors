@@ -1,28 +1,30 @@
 <script lang="ts">
-  import InlineSVG from 'svelte-inline-svg';
-  import sensorMap from './sensorMap.svg';
+    import InlineSVG from 'svelte-inline-svg';
+    import { sensors } from './store';
+    import sensorMap from './sensorMap.svg';
+    import type { Sensor } from '.';
 
-  const sensors: Sensor[] = [];
+    const transformFactory = (sensorData: Sensor[]) => (svg) => {
+        sensorData.forEach((sensor) => {
+            let textNode = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            textNode.setAttributeNS(null, 'cx', sensor.x.toString());
+            textNode.setAttributeNS(null, 'cy', sensor.y.toString());
+            textNode.setAttributeNS(null, 'fill', 'red');
+            textNode.appendChild(document.createTextNode(sensor.label));
+            svg.appendChild(textNode);
+        });
 
-  const transform = (svg) => {
-    sensors.forEach((element) => {});
+        return svg;
+    };
 
-    let point = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    point.setAttributeNS(null, 'cx', '20');
-    point.setAttributeNS(null, 'cy', '20');
-    point.setAttributeNS(null, 'r', '10');
-    point.setAttributeNS(null, 'fill', 'red');
-    svg.appendChild(point);
-
-    let point2 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    point2.setAttributeNS(null, 'cx', '80');
-    point2.setAttributeNS(null, 'cy', '50');
-    point2.setAttributeNS(null, 'r', '10');
-    point2.setAttributeNS(null, 'fill', 'green');
-    svg.appendChild(point2);
-
-    return svg;
-  };
+    let transform: (svg: any) => any;
+    sensors.subscribe((sensors) => {
+        if (!sensors.isLoading) {
+            transform = transformFactory(sensors.entries);
+        }
+    });
 </script>
 
-<InlineSVG src={sensorMap} transformSrc={transform} />
+<pre>{JSON.stringify($sensors)}</pre>
+
+<InlineSVG class="w-full h-auto" src={sensorMap} transformSrc={transform} />

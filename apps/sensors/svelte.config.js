@@ -11,8 +11,7 @@ const config = {
         adapter: adapter({ out: '../../dist/apps/sensors' }),
 
         // hydrate the <div id="svelte"> element in src/app.html
-        target: '#svelte',
-        vite: {}
+        target: '#svelte'
     }
 };
 

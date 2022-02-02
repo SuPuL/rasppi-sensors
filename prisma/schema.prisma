@@ -22,4 +22,6 @@ model SensorInfo {
   label      String
   x          Int
   y          Int
+  color      String?
+  hide       Boolean?
 }

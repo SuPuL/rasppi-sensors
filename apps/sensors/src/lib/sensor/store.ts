@@ -1,4 +1,7 @@
 import { writable } from 'svelte/store';
-import type { Sensor } from './types';
+import type { SensorState } from './types';
 
-export const sensors = writable<Sensor[]>([]);
+export const sensors = writable<SensorState>({
+    entries: [],
+    isLoading: true
+});
