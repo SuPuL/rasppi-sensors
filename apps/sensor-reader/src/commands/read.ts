@@ -53,8 +53,12 @@ export default class Read extends Command {
 
         return Promise.all(
             readSensorInfo(mock).map((id) =>
-                db.sensorInfo.create({
-                    data: {
+                db.sensorInfo.upsert({
+                    where: {
+                        id
+                    },
+                    update: {},
+                    create: {
                         id,
                         label: id,
                         x: 0,
@@ -69,15 +73,19 @@ export default class Read extends Command {
         this.log(`Start reading sensor data.`);
         await pWaitFor(
             async () => {
-                const data = JSON.stringify(readSensors(mock));
-                this.log(`${new Date()}: Temps are`);
-                this.log(data);
-
-                await db.sensorData.create({
-                    data: {
-                        data
-                    }
-                });
+                const data = readSensors(mock);
+                this.log(`${new Date()} - measures are:`);
+                this.log(JSON.stringify(data, null, 2));
+                await Promise.all(
+                    data.map(({ id, t }) =>
+                        db.sensorData.create({
+                            data: {
+                                sensorId: id,
+                                value: t
+                            }
+                        })
+                    )
+                );
 
                 return false;
             },

@@ -2,7 +2,7 @@
     export async function load() {
         return {
             status: 302,
-            redirect: '/sensors'
+            redirect: '/sensors/week'
         };
     }
 </script>

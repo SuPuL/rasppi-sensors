@@ -13,7 +13,9 @@ datasource db {
 model SensorData {
   id         Int @id @default(autoincrement())
   datetime   DateTime @default(now())
-  data       String
+  value      Float
+  sensor     SensorInfo @relation(fields: [sensorId], references: [id])
+  sensorId   String
 }
 
 model SensorInfo {
@@ -24,4 +26,5 @@ model SensorInfo {
   y          Int
   color      String?
   hide       Boolean?
+  sensorData SensorData[]
 }

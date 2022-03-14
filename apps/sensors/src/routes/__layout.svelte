@@ -7,9 +7,19 @@
         const res = await fetch(url);
 
         if (res.ok) {
+            const data = (await res.json()) || [];
+            const entries = data.map((e) => ({
+                ...e,
+                datetime: new Date(e.datetime),
+                measure: {
+                    ...e.measure,
+                    datetime: e?.measure?.datetime
+                }
+            }));
+
             return {
                 props: {
-                    entries: (await res.json()).sensors || []
+                    entries
                 }
             };
         }
@@ -57,12 +67,12 @@
                 <span>Sensor@RaspberryPi</span>
             </div>
             <div class="flex-none hidden lg:block">
-                <ul class="menu horizontal">
+                <ul class="menu menu-horizontal p-0">
                     <li>
-                        <NavLink class="btn btn-ghost" href="/">Sensor Map</NavLink>
+                        <NavLink href="/">Sensor Map</NavLink>
                     </li>
                     <li>
-                        <NavLink class="btn btn-ghost" href="/settings">Settings</NavLink>
+                        <NavLink href="/settings">Settings</NavLink>
                     </li>
                 </ul>
             </div>
@@ -103,5 +113,3 @@
         </ul>
     </div>
 </div>
-
-<pre>{JSON.stringify($sensors, null, 2)}</pre>
