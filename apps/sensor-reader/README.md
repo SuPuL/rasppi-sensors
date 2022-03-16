@@ -29,47 +29,8 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`rasppi-sensor-reader hello PERSON`](#rasppi-sensor-reader-hello-person)
-* [`rasppi-sensor-reader hello:world`](#rasppi-sensor-reader-helloworld)
 * [`rasppi-sensor-reader help [COMMAND]`](#rasppi-sensor-reader-help-command)
-
-## `rasppi-sensor-reader hello PERSON`
-
-Say hello
-
-```
-USAGE
-  $ rasppi-sensor-reader hello [PERSON] -f <value>
-
-ARGUMENTS
-  PERSON  Person to say hello to
-
-FLAGS
-  -f, --from=<value>  (required) Whom is saying hello
-
-DESCRIPTION
-  Say hello
-
-EXAMPLES
-  $ oex hello friend --from oclif
-  hello friend from oclif! (./src/commands/hello/index.ts)
-```
-
-## `rasppi-sensor-reader hello:world`
-
-Say hello world
-
-```
-USAGE
-  $ rasppi-sensor-reader hello:world
-
-DESCRIPTION
-  Say hello world
-
-EXAMPLES
-  $ oex hello world
-  hello world! (./src/commands/hello/world.ts)
-```
+* [`rasppi-sensor-reader read`](#rasppi-sensor-reader-read)
 
 ## `rasppi-sensor-reader help [COMMAND]`
 
@@ -89,5 +50,24 @@ DESCRIPTION
   Display help for rasppi-sensor-reader.
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.1.10/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.1.12/src/commands/help.ts)_
+
+## `rasppi-sensor-reader read`
+
+Read all sensor values and store them in a local database on a regular basis.
+
+```
+USAGE
+  $ rasppi-sensor-reader read -i <value> [-m]
+
+FLAGS
+  -i, --interval=<value>  (required) [default: 300] Interval in seconds between two read operations.
+  -m, --mock              Mock the sesnor data instead of read them.
+
+DESCRIPTION
+  Read all sensor values and store them in a local database on a regular basis.
+
+EXAMPLES
+  $ rasppi-sensor-reader read --interval=300
+```
 <!-- commandsstop -->
