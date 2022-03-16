@@ -3,10 +3,20 @@
     "projectType": "application",
     "sourceRoot": "apps/sensors/src",
     "targets": {
-        "build": {
+        "baseBuild": {
             "executor": "@nxext/sveltekit:sveltekit",
             "options": {
                 "command": "build"
+            }
+        },
+        "build": {
+            "builder": "@nrwl/workspace:run-commands",
+            "options": {
+                "commands": [
+                    "nx baseBuild sensors",
+                    "cp apps/sensors/package.json dist/apps/sensors"
+                ],
+                "parallel": false
             }
         },
         "serve": {

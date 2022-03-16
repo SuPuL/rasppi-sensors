@@ -22,6 +22,9 @@ build:
 	@echo "${LIGHTPURPLE}install package${RESET}";
 	npm install
 	@echo "${BLUE}DONE${RESET}";
+	@echo "${LIGHTPURPLE}build apps${RESET}";
+	npm run build:all
+	@echo "${BLUE}DONE${RESET}";
 .PHONY: build
 
 ## Initialize the project

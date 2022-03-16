@@ -1,0 +1,7 @@
+{
+    "upgrade": true,
+    "reject": [
+        "globby",
+        "p-wait-for"
+    ]
+}
