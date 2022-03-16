@@ -1,5 +1,6 @@
 import { Command, Flags } from '@oclif/core';
 import { PrismaClient } from '@prisma/client';
+import dayjs from 'dayjs';
 // @ts-ignore: no types avaiable
 import sensor from 'ds18b20-raspi';
 import random from 'lodash/random';
@@ -86,6 +87,13 @@ export default class Read extends Command {
                         })
                     )
                 );
+                const oldDate = dayjs().subtract(3, 'month').subtract(1, 'week');
+                const { count } = await db.sensorData.deleteMany({
+                    where: {
+                        datetime: { lte: oldDate.toDate() }
+                    }
+                });
+                this.log(`Deleted ${count} sensor measures from before ${oldDate.toISOString()}.`);
 
                 return false;
             },

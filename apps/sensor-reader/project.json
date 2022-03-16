@@ -3,7 +3,7 @@
   "sourceRoot": "apps/sensor-reader/src",
   "projectType": "application",
   "targets": {
-    "buildOld": {
+    "build": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "commands": [
@@ -14,18 +14,18 @@
         "cwd": "apps/sensor-reader"
       }
     },
-    "build": {
+    "pack": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "commands": [
           "shx rm -rf ./lib && tsc",
-          "shx rm -rf ./dist && rm -rf ./tmp && rm -rf ../../dist/apps/sensor-reader",
+          "shx rm -rf ./dist && rm -rf ./tmp && rm -rf ../../dist/apps/sensor-reader/pack",
           "cp ../../package-lock.json .",
           "oclif manifest",
           "oclif readme",
           "oclif pack:tarballs -t linux-x64 -t linux-arm -t darwin-arm64",
           "shx rm -f .oclif.manifest.json && shx rm -f package-lock.json",
-          "shx mkdir -p ../../dist/apps/sensor-reader && mv dist/* ../../dist/apps/sensor-reader"
+          "shx mkdir -p ../../dist/apps/sensor-reader/pack && mv dist/* ../../dist/apps/sensor-reader/pack"
         ],
         "parallel": false,
         "cwd": "apps/sensor-reader"
