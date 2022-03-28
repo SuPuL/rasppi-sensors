@@ -10,6 +10,7 @@
   "scripts": {
     "build": "nx build",
     "build:all": "nx run-many --target=build --all",
+    "pack": "nx run-many --target=pack --all",
     "start": "node dist/app/sensors && ",
     "start:dev": "nx run sensors:serve",
     "test": "nx test",

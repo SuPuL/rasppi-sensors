@@ -19,6 +19,20 @@
                 "parallel": false
             }
         },
+        "pack": {
+            "executor": "@nrwl/workspace:run-commands",
+            "options": {
+                "commands": [
+                    "nx build sensors",
+                    "shx rm -rf ./release/sensors && rm -rf ./tmp && rm -rf ../../release/sensors",
+                    "pwd",
+                    "mkdir -p ../../release/sensors",
+                    "tar cfvz ../../release/sensors/sensors.tar.gz ../../dist/apps/sensors"
+                ],
+                "parallel": false,
+                "cwd": "apps/sensor-reader"
+            }
+        },
         "serve": {
             "executor": "@nxext/sveltekit:sveltekit",
             "options": {

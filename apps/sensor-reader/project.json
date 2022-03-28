@@ -19,13 +19,13 @@
       "options": {
         "commands": [
           "shx rm -rf ./lib && tsc",
-          "shx rm -rf ./dist && rm -rf ./tmp && rm -rf ../../dist/apps/sensor-reader/pack",
+          "shx rm -rf ./release/sensor-reader && rm -rf ./tmp && rm -rf ../../release/sensor-reader",
           "cp ../../package-lock.json .",
           "oclif manifest",
           "oclif readme",
           "oclif pack:tarballs -t linux-x64 -t linux-arm -t darwin-arm64",
           "shx rm -f .oclif.manifest.json && shx rm -f package-lock.json",
-          "shx mkdir -p ../../dist/apps/sensor-reader/pack && mv dist/* ../../dist/apps/sensor-reader/pack"
+          "shx mkdir -p ../../release/sensor-reader && mv dist/* ../../release/sensor-reader"
         ],
         "parallel": false,
         "cwd": "apps/sensor-reader"
