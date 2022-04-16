@@ -1,16 +1,11 @@
-import prisma from '@prisma/client';
-
 import pick from 'lodash/pick.js';
 import omit from 'lodash/omit.js';
 import type { Sensor, DbSensorInfo } from '../../lib/sensor/types';
 import { error, SuccessOrError, success, successMsg, MessageBody } from '../../lib/response';
-
-const { PrismaClient } = prisma;
+import { getDb } from '../../lib/db';
 
 export const get = async (): SuccessOrError<Sensor<Date>[]> => {
-    const prisma = new PrismaClient();
-
-    const dbData = await prisma.sensorData.findMany({
+    const dbData = await getDb().sensorData.findMany({
         distinct: ['sensorId'],
         orderBy: {
             datetime: 'desc'
@@ -35,11 +30,10 @@ export const get = async (): SuccessOrError<Sensor<Date>[]> => {
 export async function post({ request }): SuccessOrError<MessageBody> {
     try {
         const body = (await request.json()) as DbSensorInfo[];
-        const prisma = new PrismaClient();
         await body.reduce(async (prior, info) => {
             const where = pick(info, ['id']);
             const data = omit(info, ['id']);
-            return prior.then(async () => await prisma.sensorInfo.update({ where, data }));
+            return prior.then(async () => await getDb().sensorInfo.update({ where, data }));
         }, Promise.resolve());
 
         return successMsg('Sensors saved.');

@@ -82,7 +82,7 @@
 
         <footer class="items-center pt-4 footer">
             <div class="items-center grid-flow-col">
-                <a href="https://github.com/SuPuL/rasppi-sensors">
+                <a href="http://github.com/SuPuL/rasppi-sensors">
                     <svg
                         width="36"
                         height="36"

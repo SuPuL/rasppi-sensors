@@ -1,4 +1,3 @@
-import { PrismaClient } from '@prisma/client';
 import groupBy from 'lodash/groupBy.js';
 import map from 'lodash/map.js';
 import reduce from 'lodash/reduce.js';
@@ -7,13 +6,12 @@ import minBy from 'lodash/minBy.js';
 import maxBy from 'lodash/maxBy.js';
 import { error, success, SuccessOrError } from '../../../lib/response';
 import { SensorCollection, TimeRange, toSensor } from '../../../lib/sensor';
+import { getDb } from '../../../lib/db';
 import dayjs from 'dayjs';
 
 export const get = async ({ params, url }): SuccessOrError<SensorCollection<Date>> => {
     const range: TimeRange = params.range || 'week';
-    console.warn('FFFFF', params.range, url);
-    const prisma = new PrismaClient();
-    const sensors = await prisma.sensorInfo.findMany({ where: { hide: false } });
+    const sensors = await getDb().sensorInfo.findMany({ where: { hide: false } });
     const groupedSensors = reduce(
         groupBy(sensors, 'id'),
         (result, value, key) => ({ ...result, [key]: first(value) }),
@@ -26,8 +24,8 @@ export const get = async ({ params, url }): SuccessOrError<SensorCollection<Date
             datetime: getDateRange(range)
         }
     };
-    const data = await prisma.sensorData.findMany(where);
-    const calcs = await prisma.sensorData.groupBy({
+    const data = await getDb().sensorData.findMany(where);
+    const calcs = await getDb().sensorData.groupBy({
         by: ['sensorId'],
         _count: {
             value: true

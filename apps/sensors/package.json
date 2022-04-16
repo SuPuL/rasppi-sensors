@@ -7,6 +7,8 @@
     "svelte-inline-svg": "../../node_modules/svelte-inline-svg",
     "@prisma/client": "../../node_modules/@prisma/client",
     "lodash": "../../node_modules/lodash",
-    "dayjs": "../../node_modules/dayjs"
+    "felte": "../../node_modules/felte",
+    "dayjs": "../../node_modules/dayjs",
+    "app-root-path": "../../node_modules/app-root-path"
   }
 }

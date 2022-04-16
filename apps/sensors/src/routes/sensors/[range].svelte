@@ -2,10 +2,14 @@
     import { sensors, SensorCollection } from '../../lib/sensor';
 
     export async function load({ fetch, params }) {
-        const sensorMapTest = await fetch('/static/sensorMap.svg');
         let sensorMap;
-        if (sensorMapTest.status === 200) {
-            sensorMap = '/static/sensorMap.svg';
+        try {
+            const sensorMapTest = await fetch('/sensorMap.svg');
+            if (sensorMapTest.status === 200) {
+                sensorMap = '/sensorMap.svg';
+            }
+        } catch (e) {
+            console.error('Error getting map.', e);
         }
 
         const res = await fetch(`/api/sensorsData/${params.range || 'week'}`);

@@ -6,7 +6,7 @@ include make/commands.mk
 
 .DEFAULT_GOAL := build
 
-EXECUTABLES := ls node npm git
+EXECUTABLES := ls node npm git pre-commit
 
 $(call check_executables,${EXECUTABLES})
 
