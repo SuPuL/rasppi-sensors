@@ -11,7 +11,7 @@
     "build": "nx build",
     "build:all": "nx run-many --target=build --all",
     "pack": "nx run-many --target=pack --all",
-    "start": "node dist/app/sensors && ",
+    "start": "cd dist/apps/sensors && HOST=127.0.0.1 PORT=8080 ORIGIN=http://localhost:8080 node . && cd -",
     "start:dev": "nx run sensors:serve",
     "test": "nx test",
     "cm": "cz",
