@@ -63,7 +63,8 @@ export default class Read extends Command {
                         id,
                         label: id,
                         x: 0,
-                        y: 0
+                        y: 0,
+                        fontSize: 1
                     }
                 })
             )

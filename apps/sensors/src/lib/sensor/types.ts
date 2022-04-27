@@ -1,3 +1,4 @@
+import type { SensorInfo } from '@prisma/client';
 import type { Hex } from 'svelte-awesome-color-picker/type/types';
 
 export interface Position {
@@ -10,12 +11,11 @@ export interface Measure<T> {
     datetime: T;
 }
 
-export interface DbSensorInfo {
+export interface DbSensorInfo extends Position {
     id: string;
     datetime: Date;
     label: string;
-    x: number;
-    y: number;
+    fontSize: number;
     color?: string;
     hide?: boolean;
     sensorData: DbSensorData[];
@@ -31,6 +31,7 @@ export interface DbSensorData {
 
 export interface Sensor<T> extends Position {
     id: string;
+    fontSize: number;
     label: string;
     datetime: T;
     color: Hex;
@@ -40,13 +41,14 @@ export interface Sensor<T> extends Position {
 
 export const toSensor = (sensor: SensorInfo, measure: Measure<Date>): Sensor<Date> => ({
     ...sensor,
+    fontSize: sensor.fontSize || 1,
     color: { hex: sensor.color || '#444444' },
     measure
 });
 
 export const getColorString = ({ hex }: Hex) => hex.substring(0, 7);
 
-export const formatDate = (dateString: string): string => new Date(dateString).toLocaleDateString();
+export const formatDate = (dateString: string): string => new Date(dateString).toLocaleString();
 export interface SensorState {
     entries: Sensor<string>[];
     isLoading: boolean;

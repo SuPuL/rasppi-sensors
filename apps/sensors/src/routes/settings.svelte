@@ -1,15 +1,14 @@
 <script lang="ts">
-    import type { ValidatorConfig } from '@felte/validator-yup';
     import { validator } from '@felte/validator-yup';
     import { createForm } from 'felte';
     import omit from 'lodash/omit.js';
     import ColorPicker from 'svelte-awesome-color-picker/ColorPicker.svelte';
+    import Dropzone from 'svelte-file-dropzone';
     import * as yup from 'yup';
-    import { sensors } from '../lib/sensor/store';
-    import type { Sensor } from '../lib/sensor/types';
     import ColorPickerInput from '../lib/colorPicker/ColorPickerInput.svelte';
     import ColorPickerWrapper from '../lib/colorPicker/ColorPickerWrapper.svelte';
-    import Dropzone from 'svelte-file-dropzone';
+    import { sensors } from '../lib/sensor/store';
+    import type { Sensor } from '../lib/sensor/types';
 
     let fileToUpload;
     let errorResult: 'Error' | 'Success' | undefined;
@@ -56,11 +55,12 @@
         }
     });
 
-    const validateSchema = yup.object({
+    const schema = yup.object({
         sensors: yup.array(
             yup.object({
                 id: yup.string().required(),
                 label: yup.string().required(),
+                fontSize: yup.number().moreThan(0),
                 x: yup.number().moreThan(-1),
                 y: yup.number().moreThan(-1),
                 colorHex: yup.string(),
@@ -68,13 +68,10 @@
             })
         )
     });
-    const { form, errors, isValid, isSubmitting, isDirty } = createForm<
-        yup.InferType<typeof validateSchema>,
-        ValidatorConfig
-    >({
-        extend: validator,
-        validateSchema,
+    const { form, errors, isValid, isSubmitting, isDirty, setFields } = createForm({
+        extend: validator({ schema }),
         onSubmit: async (formData): Promise<void> => {
+            console.log(formData);
             const entries = $sensors.entries.map((sensor) => {
                 const { colorHex, ...rest } = formData.sensors.find((entry) => entry.id === sensor.id);
                 return { ...sensor, ...rest, color: { hex: colorHex } };
@@ -100,6 +97,12 @@
             }
         }
     });
+
+    $: {
+        (initialValues || []).forEach((sensor, i) => {
+            setFields(`sensors.${i}.colorHex`, sensor.color.hex, true);
+        });
+    }
 </script>
 
 <svelte:head>
@@ -118,13 +121,6 @@
         </div>
     </div>
 {:else}
-    {#if message}
-        <div class="alert mb-6" class:alter-error={status !== 200} class:alert-success={status === 200}>
-            <div class="flex-1">
-                <label>{message}</label>
-            </div>
-        </div>
-    {/if}
     <div class="card card-bordered shadow-sm mb-8">
         <div class="card-body">
             <h2 class="card-title mb-4">Found Sensors</h2>
@@ -138,6 +134,7 @@
                                 <th>X</th>
                                 <th>Y</th>
                                 <th>Color</th>
+                                <th>Font Size (em)</th>
                                 <th>Hide</th>
                             </tr>
                         </thead>
@@ -153,10 +150,10 @@
                                             value={sensor.label}
                                             placeholder="label"
                                             class="input"
-                                            class:input-error={$errors.sensors?.[i].label}
-                                            class:input-bordered={$errors.sensors?.[i].label}
+                                            class:input-error={$errors.sensors?.[i]?.label}
+                                            class:input-bordered={$errors.sensors?.[i]?.label}
                                         />
-                                        {#if $errors.sensors?.[i].label}
+                                        {#if $errors.sensors?.[i]?.label}
                                             <label for="label" class="label">
                                                 <span class="label-text-alt">Label cannot be empty.</span>
                                             </label>
@@ -170,10 +167,10 @@
                                             value={sensor.x}
                                             placeholder="x"
                                             class="input w-24"
-                                            class:input-error={$errors.sensors?.[i].x}
-                                            class:input-bordered={$errors.sensors?.[i].x}
+                                            class:input-error={$errors.sensors?.[i]?.x}
+                                            class:input-bordered={$errors.sensors?.[i]?.x}
                                         />
-                                        {#if $errors.sensors?.[i].x}
+                                        {#if $errors.sensors?.[i]?.x}
                                             <label for="x" class="label">
                                                 <span class="label-text-alt">X must be a positiv number.</span>
                                             </label>
@@ -187,10 +184,10 @@
                                             value={sensor.y}
                                             placeholder="y"
                                             class="input w-24"
-                                            class:input-error={$errors.sensors?.[i].y}
-                                            class:input-bordered={$errors.sensors?.[i].y}
+                                            class:input-error={$errors.sensors?.[i]?.y}
+                                            class:input-bordered={$errors.sensors?.[i]?.y}
                                         />
-                                        {#if $errors.sensors?.[i].y}
+                                        {#if $errors.sensors?.[i]?.y}
                                             <label for="y" class="label">
                                                 <span class="label-text-alt">Y must be a positiv number.</span>
                                             </label>
@@ -202,12 +199,23 @@
                                             isAlpha={false}
                                             components={{ wrapper: ColorPickerWrapper, input: ColorPickerInput }}
                                         />
+                                    </td>
+                                    <td>
                                         <input
-                                            id="colorHex"
-                                            type="hidden"
-                                            name="sensors[{i}].colorHex"
-                                            value={sensor.color.hex}
+                                            id="fontSize"
+                                            name="sensors[{i}].fontSize"
+                                            type="number"
+                                            value={sensor.fontSize}
+                                            placeholder="fontSize"
+                                            class="input w-24"
+                                            class:input-error={$errors.sensors?.[i]?.fontSize}
+                                            class:input-bordered={$errors.sensors?.[i]?.fontSize}
                                         />
+                                        {#if $errors.sensors?.[i]?.fontSize}
+                                            <label for="fontSize" class="label">
+                                                <span class="label-text-alt">Fontsize must be a positiv number.</span>
+                                            </label>
+                                        {/if}
                                     </td>
                                     <td>
                                         <input
@@ -225,7 +233,15 @@
                         </tbody>
                     </table>
 
-                    <div class="w-full flex justify-center">
+                    {#if message}
+                        <div class="alert mt-6" class:alter-error={status !== 200} class:alert-success={status === 200}>
+                            <div class="flex-1">
+                                <label>{message}</label>
+                            </div>
+                        </div>
+                    {/if}
+
+                    <div class="w-full flex justify-center mt-6">
                         <input
                             type="submit"
                             value="Store"

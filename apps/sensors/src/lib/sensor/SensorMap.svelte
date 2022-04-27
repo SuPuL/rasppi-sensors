@@ -3,12 +3,12 @@
     import { formatDate, Sensor } from '.';
     import { sensors } from './store';
 
-    const createTextNode = (x: number, y: number, color: string = '#444444'): SVGTextElement => {
+    const createTextNode = (x: number, y: number, color: string = '#444444', fontSize = '1.6em'): SVGTextElement => {
         const textNode = document.createElementNS('http://www.w3.org/2000/svg', 'text');
         textNode.setAttributeNS(null, 'x', `${x}px`);
         textNode.setAttributeNS(null, 'y', `${y}px`);
         textNode.setAttributeNS(null, 'fill', color);
-        textNode.style.fontSize = '1.6em';
+        textNode.style.fontSize = fontSize;
 
         return textNode;
     };
@@ -16,7 +16,7 @@
     const createTextSpan = (
         label: string,
         x: number,
-        fontSize: string = '1.6em',
+        fontSize: string = '1em',
         color: string = '#444444'
     ): SVGTSpanElement => {
         const textNode = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
@@ -54,11 +54,11 @@
     const transformFactory = (sensorData: Sensor<string>[]) => (svg) => {
         sensorData
             .filter((s) => !s.hide)
-            .forEach(({ label, x, y, color: { hex }, measure: { datetime, value } }) => {
+            .forEach(({ label, x, y, fontSize, color: { hex }, measure: { datetime, value } }) => {
                 const textNode = createTextNode(x, y, hex);
-                textNode.appendChild(createTextSpan(label, x, '1.2em', hex));
-                textNode.appendChild(createTextSpan(`${value.toFixed(2)}°`, x, '1.0em'));
-                textNode.appendChild(createTextSpan(formatDate(datetime), x, '1.0em'));
+                textNode.appendChild(createTextSpan(label, x, `${fontSize}em`, hex));
+                textNode.appendChild(createTextSpan(`${value.toFixed(2)}°`, x, `${fontSize - 0.2}em`));
+                textNode.appendChild(createTextSpan(formatDate(datetime), x, `${fontSize - 0.2}em`));
                 const rect = createRectNode(textNode, hex);
                 svg.appendChild(rect);
                 svg.appendChild(textNode);
@@ -81,7 +81,7 @@
     <div class="card p-4 shadow card-bordered card-compact lg:card-normal">
         {#if sensorMap}
             <figure>
-                <InlineSVG class="w-full h-auto" src={sensorMap} transformSrc={transform} />
+                <InlineSVG class="margin-auto" src={sensorMap} transformSrc={transform} />
             </figure>
         {:else}
             <div class="alert shadow-lg">

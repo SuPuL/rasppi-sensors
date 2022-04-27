@@ -18,6 +18,7 @@ export const get = async (): SuccessOrError<Sensor<Date>[]> => {
     const sensors = dbData.map(({ sensor, value, datetime }) => ({
         ...sensor,
         color: { hex: sensor.color || '#444444' },
+        fontSize: sensor.fontSize || 1,
         measure: {
             value,
             datetime
