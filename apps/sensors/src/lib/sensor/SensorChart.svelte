@@ -25,11 +25,11 @@
     $: {
         const { newColors, newData } = reduce(
             collection?.values || [],
-            ({ newColors, newData: { labels, datasets } }, { values, sensor: { id, color } }) => ({
+            ({ newColors, newData: { labels, datasets } }, { values, sensor: { id, color, label } }) => ({
                 newColors: [...newColors, getColorString(color)],
                 newData: {
                     labels: labels.length ? labels : map(values, ({ datetime }) => formatDate(datetime)),
-                    datasets: [...datasets, { name: id, values: map(values, 'value') }]
+                    datasets: [...datasets, { name: label, values: map(values, 'value') }]
                 }
             }),
             { newColors: [], newData: exmpteData() }
