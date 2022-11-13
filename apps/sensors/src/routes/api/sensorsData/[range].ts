@@ -9,7 +9,7 @@ import { SensorCollection, TimeRange, toSensor } from '../../../lib/sensor';
 import { getDb } from '../../../lib/db';
 import dayjs from 'dayjs';
 
-export const get = async ({ params, url }): SuccessOrError<SensorCollection<Date>> => {
+export const get = async ({ params }): SuccessOrError<SensorCollection<Date>> => {
     const range: TimeRange = params.range || 'week';
     const sensors = await getDb().sensorInfo.findMany({ where: { hide: false } });
     const groupedSensors = reduce(
@@ -38,7 +38,8 @@ export const get = async ({ params, url }): SuccessOrError<SensorCollection<Date
     const calcsById = groupBy(calcs, 'sensorId');
     const dataById = groupBy(data, 'sensorId');
 
-    const groupedData = map(dataById, (values, sensorId) => {
+    const groupedData = map(dataById, (inputValues, sensorId) => {
+        const values = inputValues.map((val) => ({ ...val, value: +val.value.toFixed(2) }));
         const calc = calcsById[sensorId];
         const min = minBy(values, ({ value }) => value);
         const max = maxBy(values, ({ value }) => value);
@@ -63,7 +64,7 @@ export const get = async ({ params, url }): SuccessOrError<SensorCollection<Date
 };
 
 const getDateRange = (range: TimeRange) => {
-    const now = dayjs();
+    const now = dayjs().startOf('day');
     let from = now.clone();
 
     switch (range) {
@@ -82,7 +83,7 @@ const getDateRange = (range: TimeRange) => {
     }
 
     return {
-        gte: from.toDate(),
-        lte: now.toDate()
+        gte: from.startOf('day').toDate(),
+        lte: now.endOf('day').toDate()
     };
 };

@@ -45,8 +45,8 @@
         rectobj.setAttribute('y', y.toFixed(0));
         rectobj.setAttribute('height', (lineHeight * height).toFixed(1));
         rectobj.setAttribute('width', (horizontalPadding * width).toFixed(1));
-        rectobj.setAttribute('fill', color);
-        rectobj.setAttribute('fill-opacity', '0.1');
+        // rectobj.setAttribute('fill', color);
+        rectobj.setAttribute('fill-opacity', '0.0');
 
         return rectobj;
     };
@@ -57,8 +57,8 @@
             .forEach(({ label, x, y, fontSize, color: { hex }, measure: { datetime, value } }) => {
                 const textNode = createTextNode(x, y, hex);
                 textNode.appendChild(createTextSpan(label, x, `${fontSize}em`, hex));
-                textNode.appendChild(createTextSpan(`${value.toFixed(2)}°`, x, `${fontSize - 0.2}em`));
-                textNode.appendChild(createTextSpan(formatDate(datetime), x, `${fontSize - 0.2}em`));
+                textNode.appendChild(createTextSpan(`${value.toFixed(2)}°`, x, `${fontSize - 0.35}em`));
+                textNode.appendChild(createTextSpan(formatDate(datetime), x, `${fontSize - 0.35}em`));
                 const rect = createRectNode(textNode, hex);
                 svg.appendChild(rect);
                 svg.appendChild(textNode);
@@ -74,6 +74,11 @@
         }
     });
 
+    $: attributes = {
+        width: '100%',
+        preserveAspectRatio: 'xMidYMin slice'
+    };
+
     export let sensorMap;
 </script>
 
@@ -81,7 +86,7 @@
     <div class="card p-4 shadow card-bordered card-compact lg:card-normal">
         {#if sensorMap}
             <figure>
-                <InlineSVG class="margin-auto" src={sensorMap} transformSrc={transform} />
+                <InlineSVG class="margin-auto" src={sensorMap} transformSrc={transform} {...attributes} />
             </figure>
         {:else}
             <div class="alert shadow-lg">

@@ -71,7 +71,6 @@
     const { form, errors, isValid, isSubmitting, isDirty, setFields } = createForm({
         extend: validator({ schema }),
         onSubmit: async (formData): Promise<void> => {
-            console.log(formData);
             const entries = $sensors.entries.map((sensor) => {
                 const { colorHex, ...rest } = formData.sensors.find((entry) => entry.id === sensor.id);
                 return { ...sensor, ...rest, color: { hex: colorHex } };

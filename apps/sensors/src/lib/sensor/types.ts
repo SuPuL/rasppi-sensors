@@ -48,7 +48,7 @@ export const toSensor = (sensor: SensorInfo, measure: Measure<Date>): Sensor<Dat
 
 export const getColorString = ({ hex }: Hex) => hex.substring(0, 7);
 
-export const formatDate = (dateString: string): string => new Date(dateString).toLocaleString();
+export const formatDate = (dateString: string): string => new Date(dateString).toLocaleTimeString();
 export interface SensorState {
     entries: Sensor<string>[];
     isLoading: boolean;
@@ -71,7 +71,14 @@ export interface SensorMeasures<T> {
 }
 
 export type TimeRange = 'day' | 'week' | 'month' | '3month';
+
+export type SortingId = 'id' | 'now' | 'min' | 'max' | 'avg';
+export interface Sorting {
+    id: SortingId;
+    direction: 'asc' | 'desc';
+}
 export interface SensorCollection<T> {
     range: TimeRange;
     values: SensorMeasures<T>[];
+    sorting?: Sorting;
 }

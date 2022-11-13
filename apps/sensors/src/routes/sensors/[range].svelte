@@ -1,24 +1,13 @@
 <script lang="ts" context="module">
-    import { sensors, SensorCollection } from '../../lib/sensor';
+    import { sensors, SensorCollection, sensorCollection } from '../../lib/sensor';
 
     export async function load({ fetch, params }) {
-        let sensorMap;
-        try {
-            const sensorMapTest = await fetch('/sensorMap.svg');
-            if (sensorMapTest.status === 200) {
-                sensorMap = '/sensorMap.svg';
-            }
-        } catch (e) {
-            console.error('Error getting map.', e);
-        }
-
         const res = await fetch(`/api/sensorsData/${params.range || 'week'}`);
 
         return res.ok
             ? {
                   props: {
-                      collection: (await res.json()) || [],
-                      sensorMap
+                      collection: (await res.json()) || []
                   }
               }
             : {
@@ -29,21 +18,18 @@
 </script>
 
 <script lang="ts">
-    import SensorMap from '$lib/sensor/SensorMap.svelte';
     import SensorChart from '$lib/sensor/SensorChart.svelte';
     import SensorStats from '$lib/sensor/SensorStats.svelte';
     import { goto } from '$app/navigation';
     export let collection: SensorCollection<string>;
-    export let sensorMap: unknown;
-
-    const reload = (range: string) => {
-        collection = undefined;
-        goto(range);
-    };
 
     $: {
-        console.info(collection);
+        sensorCollection.set(collection);
     }
+
+    const reload = (range: string) => {
+        goto(range);
+    };
 </script>
 
 <svelte:head>
@@ -56,11 +42,7 @@
     </div>
 {:else}
     <div class="flex flex-col w-full">
-        <SensorMap {sensorMap} />
-
         {#if collection}
-            <div class="divider" />
-
             <div class="flex justify-center mb-8">
                 <div class="btn-group">
                     <button class="btn" class:btn-active={'day' === collection.range} on:click={() => reload('day')}
@@ -80,9 +62,9 @@
                 </div>
             </div>
 
-            <SensorChart {collection} />
+            <SensorChart />
 
-            <SensorStats {collection} />
+            <SensorStats />
         {/if}
     </div>
 {/if}

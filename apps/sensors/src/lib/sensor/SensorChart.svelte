@@ -4,7 +4,7 @@
     import Chart from 'svelte-frappe-charts';
     import { formatDate, getColorString } from './types';
     import type { SensorCollection } from './types';
-    import { values } from 'lodash';
+    import { sensorCollection } from './store';
 
     interface ChartData {
         datasets: { values: number[] }[];
@@ -16,20 +16,37 @@
         labels: []
     });
 
-    export let collection: SensorCollection<string>;
-    export let axisOptions = { xIsSeries: 1 };
+    const maxDataPoints = 25;
+
+    let collection: SensorCollection<string>;
+    sensorCollection.subscribe((value) => {
+        collection = value;
+    });
+
+    export let axisOptions = { xIsSeries: true };
+    export let lineOptions = { spline: 1, hideDots: 1, xIsSeries: true };
 
     let colors: string[] = [];
     let data: ChartData = exmpteData();
 
+    const reduceValues = (base: unknown[]) => {
+        if (base.length <= maxDataPoints) {
+            return base;
+        }
+
+        const ratio = Math.ceil(base.length / maxDataPoints);
+
+        return base.filter((_value, index) => index % ratio == 0);
+    };
+
     $: {
         const { newColors, newData } = reduce(
             collection?.values || [],
-            ({ newColors, newData: { labels, datasets } }, { values, sensor: { id, color, label } }) => ({
+            ({ newColors, newData: { labels, datasets } }, { values, sensor: { color, label } }) => ({
                 newColors: [...newColors, getColorString(color)],
                 newData: {
-                    labels: labels.length ? labels : map(values, ({ datetime }) => formatDate(datetime)),
-                    datasets: [...datasets, { name: label, values: map(values, 'value') }]
+                    labels: labels.length ? labels : map(reduceValues(values), ({ datetime }) => formatDate(datetime)),
+                    datasets: [...datasets, { name: label, values: map(reduceValues(values), 'value') }]
                 }
             }),
             { newColors: [], newData: exmpteData() }
@@ -42,7 +59,7 @@
 
 <div class="mb-8">
     <div class="card shadow card-bordered card-compact lg:card-normal overflow-visible">
-        {#if data?.datasets.length < 1}
+        {#if data?.datasets.length < 1 && colors}
             <div class="alert shadow-lg">
                 <div>
                     <svg
@@ -61,8 +78,9 @@
                         <span class="">No data found for the selected timerange.</span>
                     </div>
                 </div>
-            </div>{:else}
-            <Chart {data} {axisOptions} {colors} type="line" />
+            </div>
+        {:else}
+            <Chart {data} {axisOptions} {colors} {lineOptions} type="line" />
         {/if}
     </div>
 

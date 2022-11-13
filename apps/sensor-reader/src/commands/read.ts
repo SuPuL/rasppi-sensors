@@ -107,7 +107,7 @@ export default class Read extends Command {
 
 const readSensorInfo = (mock: boolean = false): string[] => {
     if (mock) {
-        return ['1', '2', 'v3'];
+        return ['1', '2', 'v3', 'v4', 'v5', 'v6'];
     }
 
     return sensor.list();
@@ -118,15 +118,27 @@ const readSensors = (mock: boolean = false): SensorValue[] => {
         return [
             {
                 id: '1',
-                t: random(1, 100, true)
+                t: random(35, 58, true)
             },
             {
                 id: '2',
-                t: random(1, 100, true)
+                t: random(1, 25, true)
             },
             {
                 id: 'v3',
-                t: random(1, 100, true)
+                t: random(90, 112, true)
+            },
+            {
+                id: 'v4',
+                t: random(1, 10, true)
+            },
+            {
+                id: 'v5',
+                t: random(80, 97, true)
+            },
+            {
+                id: 'v6',
+                t: random(34, 67, true)
             }
         ];
     }

@@ -69,7 +69,10 @@
             <div class="flex-none hidden lg:block">
                 <ul class="menu menu-horizontal p-0">
                     <li>
-                        <NavLink href="/">Sensor Map</NavLink>
+                        <NavLink href="/">Sensors</NavLink>
+                    </li>
+                    <li>
+                        <NavLink href="/map">Map</NavLink>
                     </li>
                     <li>
                         <NavLink href="/settings">Settings</NavLink>
@@ -105,7 +108,10 @@
         <label for="my-drawer-3" class="drawer-overlay" />
         <ul class="p-4 overflow-y-auto menu w-80 bg-neutral text-neutral-content">
             <li>
-                <NavLink href="/">Sensor Map</NavLink>
+                <NavLink href="/">Sensors</NavLink>
+            </li>
+            <li>
+                <NavLink href="/map">Map</NavLink>
             </li>
             <li>
                 <NavLink href="/settings">Settings</NavLink>

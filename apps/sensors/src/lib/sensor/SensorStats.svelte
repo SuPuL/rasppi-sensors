@@ -1,7 +1,39 @@
 <script lang="ts">
-    import { formatDate, SensorCollection } from './types';
+    import { orderBy } from 'lodash';
+    import TD from '../TD.svelte';
+    import { sensorCollection } from './store';
+    import { formatDate, SensorCollection, SensorMeasures } from './types';
 
-    export let collection: SensorCollection<string>;
+    let collection: SensorCollection<string>;
+
+    sensorCollection.subscribe((newCol) => {
+        const sorting = newCol.sorting || { id: 'id', direction: 'asc' };
+        const sortParams: ((o: SensorMeasures<string>) => unknown)[] = [];
+        switch (sorting.id) {
+            case 'id':
+                sortParams.push((o) => o.sensor.label);
+                break;
+            case 'now':
+                sortParams.push((o) => o.sensor.measure?.value);
+                break;
+            case 'min':
+                sortParams.push((o) => o.min.value);
+                break;
+            case 'max':
+                sortParams.push((o) => o.max.value);
+                break;
+            case 'avg':
+                sortParams.push((o) => o.avg);
+                break;
+        }
+        const values = orderBy(newCol.values, sortParams, [sorting.direction || 'desc']);
+
+        collection = {
+            values,
+            sorting,
+            range: newCol.range
+        };
+    });
 </script>
 
 <div class="overflow-x-auto w-full">
@@ -9,11 +41,11 @@
         <!-- head -->
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Now</th>
-                <th>Min</th>
-                <th>Max</th>
-                <th>Avg</th>
+                <TD id="id">Name</TD>
+                <TD id="now">Now</TD>
+                <TD id="min">Min</TD>
+                <TD id="max">Max</TD>
+                <TD id="avg">Avg</TD>
             </tr>
         </thead>
         <tbody>

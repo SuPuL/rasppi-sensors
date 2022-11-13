@@ -14,7 +14,6 @@ export const post = async ({ request }): Promise<SomeResponse<MessageBody>> => {
     try {
         const root = resolve('./');
         const name = join(root, 'static', file?.name);
-        console.info(root, name, appRoot);
         await writeFile(name, file.stream());
 
         return successMsg('File updated.');
