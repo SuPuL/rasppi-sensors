@@ -20,7 +20,7 @@ $ npm install -g @supul/rasppi-sensor-reader
 $ rasppi-sensor-reader COMMAND
 running command...
 $ rasppi-sensor-reader (--version)
-@supul/rasppi-sensor-reader/0.0.1 darwin-arm64 node-v16.11.1
+@supul/rasppi-sensor-reader/0.0.1 darwin-arm64 node-v16.18.0
 $ rasppi-sensor-reader --help [COMMAND]
 USAGE
   $ rasppi-sensor-reader COMMAND
