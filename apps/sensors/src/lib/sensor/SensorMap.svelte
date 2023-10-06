@@ -76,6 +76,7 @@
 
     $: attributes = {
         width: '100%',
+        height: 'auto',
         preserveAspectRatio: 'xMidYMin slice'
     };
 
